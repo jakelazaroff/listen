@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="Listen">
+    <head>
+        <title>Listen</title>
+
+        <link rel="stylesheet" href="/css/application.css">
+        <script src="/js/vendor/angular-1.2.23.js"></script>
+        <script src="/js/vendor/angular.animate-1.2.23.js"></script>
+        <script src="/js/vendor/angular.resource-1.2.23.js"></script>
+        <script src="/js/app.js"></script>
+
+        <script src="//localhost:35729/livereload.js"></script>
+    </head>
+    <body ng-controller="ListenController">
+
+        <section player class="player" ng-hide="!currentSong">
+        </section>
+
+        <ul song-list class="song-list">
+        </ul>
+
+        <div class="about" ng-include="'templates/about.html'">
+        </div>
+
+    </body>
+</html>
