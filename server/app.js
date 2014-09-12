@@ -28,4 +28,4 @@ app.get(config.apiRoot + '/songs/:id/stream', function (req, res) {
     req.pipe(request(services.soundcloud.endpoint('/tracks/' + req.params.id + '/stream'))).pipe(res);
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
