@@ -34,11 +34,23 @@ module.exports = function(grunt) {
         copy: {
             build: {
                 files: [{
-                    src: ['.tmp/**/*.html', '.tmp/**/*.css', '.tmp/**/*.js'], dest: 'build/', expand: true, flatten: true
+                    // server
+                    src: '.tmp/server.js', dest: 'build/server.js'
                 }, {
-                    src: 'client/img/*', dest: 'build/img', expand: true, flatten: true
+                    // html
+                    src: '.tmp/**/*.html', dest: 'build/public', expand: true, flatten: true
                 }, {
-                    src: 'client/fonts/*', dest: 'build/fonts', expand: true, flatten: true
+                    // css
+                    src: '.tmp/css/*', dest: 'build/public/css', expand: true, flatten: true
+                }, {
+                    // js
+                    src: '.tmp/js/*', dest: 'build/public/js', expand: true, flatten: true
+                }, {
+                    // img
+                    src: 'client/img/*', dest: 'build/public/img', expand: true, flatten: true
+                }, {
+                    // fonts
+                    src: 'client/fonts/*', dest: 'build/public/fonts', expand: true, flatten: true
                 }]
             }
         },

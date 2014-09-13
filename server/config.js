@@ -5,7 +5,7 @@ var env = {
         static : 'client'
     },
     production : {
-        static : 'build'
+        static : 'build/public'
     }
 };
 
