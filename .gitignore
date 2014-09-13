@@ -5,7 +5,7 @@
 build
 .tmp
 *.map
-.sublime-workspace
+*.sublime-workspace
 
 # sass
 .sass-cache
