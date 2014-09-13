@@ -6,21 +6,64 @@ module.exports = function(grunt) {
 
         // express
         express: {
-            dist: {
+            dev: {
                 options: {
-                    script: 'server/app.js'
+                    script: 'server/server.js',
+                    node_env: 'development'
                 }
+            },
+            prod : {
+                options: {
+                    script: 'build/server.js',
+                    node_env: 'production'
+                }                
             }
         },
 
         // clean
         clean: {
-            build: {
-                src: ['build']
-            },
             tmp: {
                 src: ['.tmp']
+            },
+            build: {
+                src: ['build']
             }
+        },
+
+        // copy
+        copy: {
+            build: {
+                files: [{
+                    src: ['.tmp/**/*.html', '.tmp/**/*.css', '.tmp/**/*.js'], dest: 'build/', expand: true, flatten: true
+                }, {
+                    src: 'client/img/*', dest: 'build/img', expand: true, flatten: true
+                }, {
+                    src: 'client/fonts/*', dest: 'build/fonts', expand: true, flatten: true
+                }]
+            }
+        },
+
+        // concat
+        concat: {
+            options: {
+                separator: ';'
+            },
+            server: {
+                src: 'server/**/*.js',
+                dest: '.tmp/server.js',
+            }
+        },
+
+        // usemin
+        useminPrepare: {
+            build: {
+                src: 'client/index.html',
+                dest: '.tmp'
+            }
+        },
+
+        usemin: {  
+            html: '.tmp/index.html'
         },
 
         // ngAnnotate
@@ -28,9 +71,9 @@ module.exports = function(grunt) {
             options: {
                 singleQuotes: true,
             },
-            listen: {
+            build: {
                 files: {
-                    '.tmp/js/application.js': ['client/js/**/*.js']
+                    '.tmp/application.js': ['client/js/**/*.js']
                 },
             },
         },
@@ -42,7 +85,7 @@ module.exports = function(grunt) {
             },
             build: {
                 files: {
-                    'build/application.js': ['.tmp/**/*.js']
+                    '.tmp/js/application.js': ['.tmp/application.js']
                 }
             }
         },
@@ -63,7 +106,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: 'client/sass',
                     src: ['*.sass'],
-                    dest: '.tmp/css',
+                    dest: '.tmp',
                     ext: '.css'
                 }]
             }
@@ -73,7 +116,7 @@ module.exports = function(grunt) {
         cssmin: {
             build: {
                 files: {
-                    'build/application.css': [ '.tmp/**/*.css' ]
+                    '.tmp/css/application.css': [ '.tmp/application.css' ]
                 }
             }
         },
@@ -81,12 +124,28 @@ module.exports = function(grunt) {
         // watch
         watch: {
             server: {
-                files: ['server/*.js'],
+                files: ['server/**/*.js'],
                 tasks: ['express']
             },
+            js: {
+                files: ['client/**/*.js'],
+                tasks: ['ngAnnotate:dev'],
+                options: {
+                    spawn: false,
+                    livereload: true
+                }
+            },
             css: {
-                files: ['client/sass/*.sass'],
+                files: ['client/**/*.sass'],
                 tasks: ['sass:dev'],
+                options: {
+                    spawn: false,
+                    livereload: true
+                }
+            },
+            prod: {
+                files: ['server/**/*', 'client/**/*'],
+                tasks: ['ngAnnotate:build', 'sass:build', 'copy:build'],
                 options: {
                     spawn: false,
                     livereload: true
@@ -96,13 +155,13 @@ module.exports = function(grunt) {
 
         // parallel
         parallel: {
-            web: {
+            dev: {
                 options: {
                     stream: true
                 },
                 tasks: [{
                     grunt: true,
-                    args: ['express']
+                    args: ['express:dev']
                 }, {
                     grunt: true,
                     args: ['watch:server']
@@ -110,13 +169,27 @@ module.exports = function(grunt) {
                     grunt: true,
                     args: ['watch:css']
                 }]
-            }
+            },
+            prod: {
+                options: {
+                    stream: true
+                },
+                tasks: [{
+                    grunt: true,
+                    args: ['express:prod']
+                }, {
+                    grunt: true,
+                    args: ['watch:prod']
+                }]
+            },
         }
 
     });
 
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-usemin');
     grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-angular-templates');
@@ -126,9 +199,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-parallel');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('dev', ['parallel']);
-    grunt.registerTask('scripts', ['ngAnnotate', 'uglify']);
-    grunt.registerTask('styles', ['sass:build', 'cssmin']);
-    grunt.registerTask('build', ['clean:build', 'useminPrepare', 'scripts', 'styles', 'usemin', 'clean:tmp']);
+    grunt.registerTask('js', ['ngAnnotate', 'uglify:build']);
+    grunt.registerTask('css', ['sass:build', 'cssmin:build']);
+    grunt.registerTask('build', ['clean:build', 'useminPrepare', 'js', 'css', 'concat:server', 'copy:build', 'usemin', 'clean:tmp']);
+
+    grunt.registerTask('dev', ['parallel:dev']);
+    grunt.registerTask('prod', ['ngAnnotate:build', 'sass:build', 'concat:server', 'copy:build', 'parallel:prod']);
 
 };

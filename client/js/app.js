@@ -1,4 +1,4 @@
-(function () {
+(function (angular) {
 
     var app = angular.module('Listen', ['ngResource', 'ngAnimate', 'cfp.hotkeys']);
 
@@ -109,4 +109,4 @@
         };
     }]);
 
-})();
+})(angular);

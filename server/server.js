@@ -7,7 +7,7 @@ var services = require('./services');
 
 var app = express();
 
-app.use(express.static(path.join(config.root, process.env.STATIC_ASSETS || '/client')));
+app.use(express.static(path.join(config.root, config.env.static)));
 
 app.get(config.apiRoot + '/songs', function (req, res) {
     request({

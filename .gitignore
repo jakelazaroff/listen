@@ -4,6 +4,8 @@
 # listen
 build
 .tmp
+*.map
+.sublime-workspace
 
 # sass
 .sass-cache

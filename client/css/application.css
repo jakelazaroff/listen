@@ -88,14 +88,17 @@ strong {
     transform: translateY(-100%) rotateX(90deg); }
   .player.ng-hide-add {
     transition: none; }
+  @media screen and (max-width: 720px) {
+    .player {
+      height: 84px;
+      padding: 6px; } }
   .player a, .player button {
     opacity: 0.8;
     transition: 0.25s opacity ease-in-out; }
     .player a:hover, .player button:hover {
       opacity: 1; }
   .player > .info {
-    float: left;
-    margin-left: 20px; }
+    float: left; }
     .player > .info > .song-artwork {
       display: block;
       float: left;
@@ -117,10 +120,17 @@ strong {
       margin-top: 1px;
       font-weight: 900;
       text-transform: uppercase; }
+      @media screen and (max-width: 720px) {
+        .player > .info > .song-artist {
+          margin-top: 0; } }
     .player > .info > .song-title {
       font-weight: 100; }
   .player > .controls {
-    float: left; }
+    position: relative;
+    float: left;
+    margin-left: -82px;
+    margin-right: 20px;
+    transition: 0.25s margin-left ease-in-out; }
     .player > .controls > .control {
       display: block;
       float: left;
@@ -133,8 +143,15 @@ strong {
       .player > .controls > .control[disabled] {
         opacity: 0.4;
         cursor: default; }
+      @media screen and (max-width: 720px) {
+        .player > .controls > .control {
+          float: none;
+          height: 24px;
+          padding: 4px; } }
       .player > .controls > .control > img {
         display: block; }
+  .player:hover > .controls {
+    margin-left: 0; }
   .player > .poweredby {
     display: block;
     float: right;

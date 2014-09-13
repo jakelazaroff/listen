@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html ng-app="Listen">
-    <head>
-        <title>Listen</title>
 
-        <link rel="stylesheet" href="/css/application.css">
+<head>
+    <title>Listen</title>
+    <!-- build:css /css/application.css -->
+    <link rel="stylesheet" href="/css/application.css">
+    <!-- endbuild -->
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+</head>
+<body ng-controller="ListenController">
 
-        <!-- build:js /js/application.js -->
-        <script src="/js/vendor/angular-1.2.23.js"></script>
-        <script src="/js/vendor/angular.animate-1.2.23.js"></script>
-        <script src="/js/vendor/angular.hotkeys-1.4.3.js"></script>
-        <script src="/js/vendor/angular.resource-1.2.23.js"></script>
-        <script src="/js/app.js"></script>
-        <!-- endbuild -->
+    <section player class="player" ng-hide="!currentSong">
+    </section>
 
-        <script src="//localhost:35729/livereload.js"></script>
+    <ul song-list class="song-list">
+    </ul>
 
-        <meta name="viewport" content="width=device-width, user-scalable=no">
-    </head>
-    <body ng-controller="ListenController">
+    <div class="about" ng-include="'templates/about.html'">
+    </div>
 
-        <section player class="player" ng-hide="!currentSong">
-        </section>
+    <!-- build:js /js/application.js -->
+    <script src="/js/vendor/angular-1.2.23.js"></script>
+    <script src="/js/vendor/angular.animate-1.2.23.js"></script>
+    <script src="/js/vendor/angular.hotkeys-1.4.3.js"></script>
+    <script src="/js/vendor/angular.resource-1.2.23.js"></script>
+    <script src="/js/app.js"></script>
 
-        <ul song-list class="song-list">
-        </ul>
+    <script src="//localhost:35729/livereload.js"></script>
+    <!-- endbuild -->
 
-        <div class="about" ng-include="'templates/about.html'">
-        </div>
-
-    </body>
+</body>
 </html>

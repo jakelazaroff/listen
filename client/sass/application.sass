@@ -38,6 +38,10 @@ strong
     &.ng-hide-add
         transition: none
 
+    @media screen and (max-width: $medium)
+        height: 84px
+        padding: 6px
+
     a, button
         opacity: 0.8
         transition: 0.25s opacity ease-in-out
@@ -47,7 +51,6 @@ strong
 
     > .info
         float: left
-        margin-left: 20px
 
         > .song-artwork
             display: block
@@ -74,11 +77,18 @@ strong
             font-weight: 900
             text-transform: uppercase
 
+            @media screen and (max-width: $medium)
+                margin-top: 0
+
         > .song-title
             font-weight: 100
 
     > .controls
+        position: relative
         float: left
+        margin-left: -82px
+        margin-right: 20px
+        transition: 0.25s margin-left ease-in-out
 
         > .control
             display: block
@@ -94,8 +104,16 @@ strong
                 opacity: 0.4
                 cursor: default
 
+            @media screen and (max-width: $medium)
+                float: none
+                height: 24px
+                padding: 4px
+
             > img
                 display: block
+
+    &:hover > .controls
+        margin-left: 0
 
     > .poweredby
         display: block
