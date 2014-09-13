@@ -30,7 +30,7 @@ strong
     @include background-image(linear-gradient(rgba(#000000, 1), rgba(#000000, 0.7)))
     z-index: 10
     @include perspective(500px)
-    transition: 0.8s transform ease-in-out
+    transition: 0.8s transform $ease-in-out-quart
 
     &.ng-hide
         transform: translateY(-100%) rotateX(90deg)
@@ -59,10 +59,10 @@ strong
             height: 48px
             margin-right: 20px
             transform: translateY(0)
-            transition: 1s transform ease-out
+            transition: 1s transform $ease-in-out-cubic
 
             &.ng-hide
-                transform: translateY(-100%)
+                transform: translateY(-200%)
 
         > .song-artist,
         > .song-title
@@ -88,7 +88,7 @@ strong
         float: left
         margin-left: -82px
         margin-right: 20px
-        transition: 0.25s margin-left ease-in-out
+        transition: 0.25s margin-left $ease-in-out-quart
 
         > .control
             display: block
