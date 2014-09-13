@@ -32,6 +32,12 @@ module.exports = function(grunt) {
 
         // copy
         copy: {
+            tmp: {
+                files: [{
+                    // html
+                    src: 'client/index.html', dest: '.tmp'
+                }]
+            },
             build: {
                 files: [{
                     // server
@@ -85,7 +91,7 @@ module.exports = function(grunt) {
             },
             build: {
                 files: {
-                    '.tmp/application.js': ['client/js/**/*.js']
+                    '.tmp/js/application.js': ['client/js/**/*.js']
                 },
             },
         },
@@ -97,7 +103,7 @@ module.exports = function(grunt) {
             },
             build: {
                 files: {
-                    '.tmp/js/application.js': ['.tmp/application.js']
+                    '.tmp/js/application.js': ['.tmp/js/application.js']
                 }
             }
         },
@@ -128,7 +134,7 @@ module.exports = function(grunt) {
         cssmin: {
             build: {
                 files: {
-                    '.tmp/css/application.css': [ '.tmp/application.css' ]
+                    '.tmp/css/application.css': [ '.tmp/css/application.css' ]
                 }
             }
         },
@@ -213,7 +219,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('js', ['ngAnnotate', 'uglify:build']);
     grunt.registerTask('css', ['sass:build', 'cssmin:build']);
-    grunt.registerTask('build', ['clean:build', 'useminPrepare', 'js', 'css', 'concat:server', 'copy:build', 'usemin', 'clean:tmp']);
+    grunt.registerTask('build', ['clean:build', 'copy:tmp', 'useminPrepare', 'js', 'css', 'concat:server', 'copy:build', 'usemin', 'clean:tmp']);
 
     grunt.registerTask('dev', ['parallel:dev']);
     grunt.registerTask('prod', ['ngAnnotate:build', 'sass:build', 'concat:server', 'copy:build', 'parallel:prod']);

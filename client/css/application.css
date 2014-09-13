@@ -83,7 +83,7 @@ strong {
   -webkit-perspective: 500px;
   -moz-perspective: 500px;
   perspective: 500px;
-  transition: 0.8s transform ease-in-out; }
+  transition: 0.8s transform cubic-bezier(0.77, 0, 0.175, 1); }
   .player.ng-hide {
     transform: translateY(-100%) rotateX(90deg); }
   .player.ng-hide-add {
@@ -106,9 +106,9 @@ strong {
       height: 48px;
       margin-right: 20px;
       transform: translateY(0);
-      transition: 1s transform ease-out; }
+      transition: 1s transform cubic-bezier(0.645, 0.045, 0.355, 1); }
       .player > .info > .song-artwork.ng-hide {
-        transform: translateY(-100%); }
+        transform: translateY(-200%); }
     .player > .info > .song-artist,
     .player > .info > .song-title {
       display: block;
@@ -130,7 +130,7 @@ strong {
     float: left;
     margin-left: -82px;
     margin-right: 20px;
-    transition: 0.25s margin-left ease-in-out; }
+    transition: 0.25s margin-left cubic-bezier(0.77, 0, 0.175, 1); }
     .player > .controls > .control {
       display: block;
       float: left;
