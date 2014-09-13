@@ -3,6 +3,7 @@
 
 # listen
 build
+.tmp
 
 # sass
 .sass-cache

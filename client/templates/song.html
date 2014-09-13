@@ -1,4 +1,4 @@
-<li class="song-poster js-song-poster" ng-class="{playing: isPlaying && currentSong.id === song.id}" ng-click="toggleSong(song)" ng-model="song" ng-repeat="song in songs">
+<li class="song-poster js-song-poster" ng-class="{playing: currentSong.id === song.id}" ng-click="toggleSong(song)" ng-model="song" ng-repeat="song in songs">
     <img class="toggle" ng-src="/img/{{ isPlaying && currentSong.id === song.id ? 'pause' : 'play' }}.svg" alt="{{ isPlaying && currentSong.id === song.id ? 'Pause' : 'Play' }}">
     <img class="song-artwork" ng-src="{{ song.artwork_url || '' }}" alt="{{ song.title }}">
 </li>

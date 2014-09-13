@@ -1,6 +1,6 @@
 (function () {
 
-    var app = angular.module('Listen', ['ngResource', 'ngAnimate']);
+    var app = angular.module('Listen', ['ngResource', 'ngAnimate', 'cfp.hotkeys']);
 
     app.controller('ListenController', ['$scope', '$resource', function ($scope, $resource) {
 
@@ -12,6 +12,7 @@
         songs = SongList.query({}, function () {
             $scope.songs = songs;
         });
+
     }]);
 
     app.directive('songList', function () {
@@ -33,7 +34,7 @@
         };
     });
 
-    app.directive('player', function () {
+    app.directive('player', ['hotkeys', function (hotkeys) {
         return {
             templateUrl : 'templates/player.html',
             link : function (scope, element, attributes) {
@@ -58,12 +59,13 @@
 
                     if (audio.currentTime >= 5)
                         audio.currentTime = 0;
-                    else
+                    else if (scope.currentSongIndex > 0)
                         scope.currentSongIndex -= 1;
                 };
 
                 scope.next = function () {
-                    scope.currentSongIndex += 1;
+                    if (scope.currentSongIndex + 1 < scope.songs.length)
+                        scope.currentSongIndex += 1;
                 };
 
                 scope.play = function () {
@@ -79,8 +81,32 @@
                 scope.togglePlayback = function () {
                     scope.isPlaying ? scope.pause() : scope.play();
                 };
+
+                hotkeys.bindTo(scope)
+                    .add({
+                        combo : 'space',
+                        callback : function (event) {
+                            event.preventDefault();
+                            scope.togglePlayback();
+                        }
+                    })
+                    .add({
+                        combo : 'left',
+                        callback : function (event) {
+                            event.preventDefault();
+                            scope.previous();
+                        }
+                    })
+                    .add({
+                        combo : 'right',
+                        callback : function (event) {
+                            event.preventDefault();
+                            scope.next();
+                        }
+                    });
+
             }   
         };
-    });
+    }]);
 
 })();

@@ -14,9 +14,7 @@ var config = {
             secret : '27b4fb157a288e0e78921c27c9fc84c8',
             user : 'jakelazaroff'
         }
-
     }
-
 };
 
 module.exports = config;
