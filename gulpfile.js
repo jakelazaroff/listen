@@ -1,7 +1,5 @@
 // libraries
 var _ = require('underscore');
-var q = require('q');
-var runSequence = require('run-sequence');
 
 // extend default arguments from command line
 var options = _.extend({
@@ -12,6 +10,7 @@ var options = _.extend({
 var gulp = require('gulp');
 
 // plugins
+var runSequence = require('run-sequence');
 var merge = require('merge-stream');
 var gulpif = require('gulp-if');
 var server = require('gulp-express');
