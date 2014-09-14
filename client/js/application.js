@@ -1,6 +1,6 @@
 (function (angular) {
 
-    var app = angular.module('Listen', ['ngResource', 'ngAnimate', 'cfp.hotkeys']);
+    var app = angular.module('Listen', ['templates', 'ngResource', 'ngAnimate', 'cfp.hotkeys']);
 
     app.controller('ListenController', ['$scope', '$resource', function ($scope, $resource) {
 
@@ -17,7 +17,7 @@
 
     app.directive('songList', function () {
         return {
-            templateUrl : 'templates/song.html',
+            templateUrl : 'song.html',
             link : function (scope, element, attributes) {
 
                 scope.toggleSong = function (song) {
@@ -36,7 +36,7 @@
 
     app.directive('player', ['hotkeys', function (hotkeys) {
         return {
-            templateUrl : 'templates/player.html',
+            templateUrl : 'player.html',
             link : function (scope, element, attributes) {
                 var audio = element.find('audio')[0];
 

@@ -1,19 +1,9 @@
 var path = require('path');
 
-var env = {
-    development : {
-        static : 'client'
-    },
-    production : {
-        static : 'build/public'
-    }
-};
-
 var config = {
 
     root : path.join(__dirname, '..'),
-
-    env : env[process.env.NODE_ENV || 'development'],
+    public : '/build/public',
 
     apiRoot : '/api',
 

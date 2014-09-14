@@ -7,7 +7,10 @@ var services = require('./services');
 
 var app = express();
 
-app.use(express.static(path.join(config.root, config.env.static)));
+app.use(express.static(path.join(config.root, config.public)));
+
+if (process.env.NODE_ENV === 'development') 
+    app.use(require('connect-livereload')());
 
 app.get(config.apiRoot + '/songs', function (req, res) {
     request({
