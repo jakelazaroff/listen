@@ -5,7 +5,7 @@ var runSequence = require('run-sequence');
 
 // extend default arguments from command line
 var options = _.extend({
-    environment : 'development',
+    env : process.env.NODE_ENV,
 }, require('yargs').argv);
 
 // gulp
@@ -13,10 +13,12 @@ var gulp = require('gulp');
 
 // plugins
 var merge = require('merge-stream');
+var gulpif = require('gulp-if');
 var server = require('gulp-express');
 var copy = require('gulp-copy');
 var rimraf = require('gulp-rimraf');
 var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 var inject = require('gulp-inject');
 var sass = require('gulp-ruby-sass');
 var ngAnnotate = require('gulp-ng-annotate');
@@ -35,7 +37,7 @@ gulp.task('html', function () {
 gulp.task('css', function () {
 
     return gulp.src('client/sass/application.sass')
-        .pipe(sass({ style : 'compressed' }))
+        .pipe(sass({ style : options.env === 'production' ? 'compressed' : 'nested' }))
         .on('error', function (err) { console.log(err.message); })
         .pipe(gulp.dest('build/public/css'));
 });
@@ -49,6 +51,7 @@ gulp.task('js', function () {
     return merge(js, templates)
         .pipe(concat('application.js'))
         .pipe(ngAnnotate())
+        .pipe(gulpif(options.env === 'production', uglify()))
         .pipe(gulp.dest('build/public/js'));
 });
 
@@ -106,4 +109,6 @@ gulp.task('server', function () {
     // restart the server on file changes
     gulp.watch(['server/*.js'], [function () { server.run(serverOptions) }]);
 });
+
+gulp.task('heroku:production', ['build']);
 
