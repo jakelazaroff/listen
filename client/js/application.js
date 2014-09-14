@@ -41,7 +41,6 @@
                 var audio = element.find('audio')[0];
 
                 scope.$watch('currentSongIndex', function (index) {
-                    console.log
                     if (typeof index !== 'number') return;
 
                     scope.currentSong = scope.songs[index];
@@ -57,7 +56,7 @@
 
                 scope.previous = function () {
 
-                    if (audio.currentTime >= 5)
+                    if (audio.currentTime >= 5 || scope.currentSongIndex === 0)
                         audio.currentTime = 0;
                     else if (scope.currentSongIndex > 0)
                         scope.currentSongIndex -= 1;

@@ -3,7 +3,6 @@
 
 # listen
 build
-.tmp
 *.map
 *.sublime-workspace
 
