@@ -34,48 +34,64 @@
                     scope.currentSongIndex = scope.songs.indexOf(song);
                 };
 
-                // scope.$watch('currentSong', function (song) {
-                //     if (!song)
-                //         return;
+                scope.$watch('currentSong', function (song) {
+                    if (!song)
+                        return;
 
-                //     var poster = document.getElementsByClassName('js-' + song.id)[0];
+                    var id = scope.currentSong.id;
+                    var poster = document.getElementsByClassName('js-' + song.id)[0];
 
-                //     var canvas = poster.getElementsByClassName('js-spectrum')[0].getContext('2d');
+                    var spectrum = poster.getElementsByClassName('js-spectrum')[0];
+                    var canvas = spectrum.getContext('2d');
 
-                //     var context = new webkitAudioContext();
-                //     var analyser = context.createAnalyser();
-                //     analyser.fftSize = 2048;
+                    var context = new AudioContext();
+                    var analyser = context.createAnalyser();
+                    analyser.fftSize = 2048;
 
-                //     var source = context.createMediaElementSource(document.getElementsByTagName('audio')[0]);
-                //     source.connect(analyser);
-                //     analyser.connect(context.destination);
-                //     freqAnalyser();
+                    var source = context.createMediaElementSource(document.getElementsByTagName('audio')[0]);
+                    source.connect(analyser);
+                    analyser.connect(context.destination);
 
-                //     function freqAnalyser() {
-                //         window.requestAnimationFrame(freqAnalyser);
-                //         var average;
-                //         var bar_width;
-                //         var scaled_average;
-                //         var num_bars = 30;
-                //         var data = new Uint8Array(2048);
-                //         analyser.getByteFrequencyData(data);
+                    var drawSpectrum = function () {
+                        if (id === scope.currentSong.id)
+                            window.requestAnimationFrame(drawSpectrum);
+                        else
+                            return canvas.clearRect(0, 0, poster.offsetWidth, poster.offsetHeight);
 
-                //         // clear canvas
-                //         canvas.clearRect(0, 0, poster.offsetWidth, poster.offsetHeight);
-                //         var bin_size = Math.floor(data.length / num_bars);
-                //         for (var i = 0; i < num_bars; i += 1) {
-                //             var sum = 0;
-                //             for (var j = 0; j < bin_size; j += 1) {
-                //                 sum += data[(i * bin_size) + j];
-                //             }
-                //             average = sum / bin_size;
-                //             bar_width = poster.offsetWidth / num_bars;
-                //             scaled_average = (average / 256) * poster.offsetHeight;
-                //             canvas.fillRect(i * bar_width, poster.offsetHeight, bar_width - 2, - scaled_average);
-                //         }
-                //     }
+                        var size = spectrum.width = spectrum.height = poster.offsetWidth;
+                        canvas.fillStyle = '#ffffff';
 
-                // });
+                        var radius = (poster.getElementsByClassName('toggle')[0].offsetWidth / -2) + 2;
+                        var average;
+                        var bar_width = 2;
+                        var scaled_average;
+                        var num_bars = 60;
+                        var increment = Math.PI * 2 / num_bars;
+                        var data = new Uint8Array(512);
+                        analyser.getByteFrequencyData(data);
+
+                        canvas.save();
+                        canvas.translate(size / 2, size / 2);
+                        
+                        var bin_size = Math.floor(data.length / num_bars);
+                        for (var i = 0; i < num_bars; i += 1) {
+                            var sum = 0;
+                            for (var j = 0; j < bin_size; j += 1) {
+                                sum += data[(i * bin_size) + j];
+                            }
+                            average = sum / bin_size;
+                            scaled_average = (average / 256) * (size / 10);
+
+                            canvas.fillRect(0, radius, bar_width, -scaled_average);
+                            canvas.rotate(increment);
+                        }
+
+                        canvas.restore();
+                    }
+
+                    drawSpectrum(); 
+
+                });
 
             }
         };

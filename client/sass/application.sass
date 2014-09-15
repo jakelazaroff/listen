@@ -24,15 +24,17 @@ strong
     top: 0
     width: 100%
     height: 36px
+    -webkit-transform: perspective(500px) translateY(0) rotateX(0)
     transform: perspective(500px) translateY(0) rotateX(0)
     padding: 0 10px
     font-size: 12px
     @include background-image(linear-gradient(rgba(#000000, 1), rgba(#000000, 0.7)))
     z-index: 10
     @include perspective(500px)
-    transition: 0.8s transform $ease-in-out-quart
+    transition: 0.8s transform $ease-in-out-quart, 0.8s -webkit-transform $ease-in-out-quart
 
     &.ng-hide
+        -webkit-transform: translateY(-100%) rotateX(90deg)
         transform: translateY(-100%) rotateX(90deg)
 
     &.ng-hide-add
@@ -63,10 +65,12 @@ strong
             width: 48px
             height: 48px
             margin-right: 20px
+            -webkit-transform: translateY(0)
             transform: translateY(0)
-            transition: 1s transform $ease-in-out-cubic
+            transition: 1s transform $ease-in-out-cubic, 1s -webkit-transform $ease-in-out-cubic
 
             &.ng-hide
+                -webkit-transform: translateY(-200%)
                 transform: translateY(-200%)
 
             @media screen and (max-width: $medium)
@@ -194,6 +198,7 @@ strong
             height: 30%
             top: 50%
             left: 50%
+            -webkit-transform: translate(-50%, -50%)
             transform: translate(-50%, -50%)
             opacity: 0
             z-index: 10
@@ -206,6 +211,7 @@ strong
             left: 0
             width: 100%
             height: 100%
+            z-index: 5
 
         > .song-artwork
             position: absolute
@@ -225,7 +231,6 @@ strong
 
             > .song-artwork
                 opacity: 0.6
-                -webkit-transform: scale(1)
                 -webkit-filter: blur(15px)
 
 .about

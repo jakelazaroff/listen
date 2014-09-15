@@ -109,5 +109,5 @@ gulp.task('server', function () {
     gulp.watch(['server/*.js'], [function () { server.run(serverOptions) }]);
 });
 
-// gulp.task('heroku:production', ['build']);
+gulp.task('heroku:production', ['build']);
 
