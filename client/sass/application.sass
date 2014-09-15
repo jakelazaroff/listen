@@ -39,8 +39,7 @@ strong
         transition: none
 
     @media screen and (max-width: $medium)
-        height: 84px
-        padding: 6px
+        height: 48px
 
     a, button
         opacity: 0.8
@@ -51,6 +50,12 @@ strong
 
     > .info
         float: left
+        line-height: 36px
+
+        @media screen and (max-width: $medium)
+            overflow: hidden
+            padding-top: 6px
+            line-height: 18px
 
         > .song-artwork
             display: block
@@ -64,13 +69,19 @@ strong
             &.ng-hide
                 transform: translateY(-200%)
 
+            @media screen and (max-width: $medium)
+                margin-top: -6px
+                margin-right: 10px
+
         > .song-artist,
         > .song-title
             display: block
             float: left
-            height: 36px
             margin-right: 20px
-            line-height: 36px
+            white-space: nowrap
+
+            @media screen and (max-width: $medium)
+                float: none
 
         > .song-artist
             margin-top: 1px
@@ -86,9 +97,13 @@ strong
     > .controls
         position: relative
         float: left
+        overflow: hidden
         margin-left: -82px
         margin-right: 20px
         transition: 0.25s margin-left $ease-in-out-quart
+
+        @media screen and (max-width: $medium)
+            margin: 12px 10px 0 0
 
         > .control
             display: block
@@ -105,7 +120,7 @@ strong
                 cursor: default
 
             @media screen and (max-width: $medium)
-                float: none
+                // float: none
                 height: 24px
                 padding: 4px
 
@@ -122,17 +137,27 @@ strong
         line-height: 36px
         opacity: 0.4
 
+        @media screen and (max-width: $medium)
+            height: 60px
+            line-height: 60px
+
         > .soundcloud
             width: 24px
             height: 24px
             margin-top: 5px
+
+            @media screen and (max-width: $medium)
+                margin-top: -5px
 
 .song-list
     position: relative
     margin-top: 36px
     background-color: #111111
     z-index: 1
-    transition: 0.8s margin ease-in-out
+    transition: 0.7s margin ease-in-out
+
+    @media screen and (max-width: $medium)
+        margin-top: 48px
 
     .player.ng-hide + &
         margin-top: 0
