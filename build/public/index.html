@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="Listen">
+
+<head>
+    <title>Listen</title>
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/application.css">
+    <!-- endinject -->
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+</head>
+<body ng-controller="ListenController">
+
+    <section player class="player" ng-hide="!currentSong">
+    </section>
+
+    <ul song-list class="song-list">
+    </ul>
+
+    <div class="about" ng-include="'about.html'">
+    </div>
+
+    <!-- inject:js -->
+    <script src="/js/application.js"></script>
+    <!-- endinject -->
+
+</body>
+</html>

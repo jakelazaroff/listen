@@ -1,5 +1,8 @@
 (function (angular) {
 
+    // prefixing fix
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
     var app = angular.module('Listen', ['templates', 'ngResource', 'ngAnimate', 'cfp.hotkeys']);
 
     app.controller('ListenController', ['$scope', '$resource', function ($scope, $resource) {
@@ -30,6 +33,50 @@
 
                     scope.currentSongIndex = scope.songs.indexOf(song);
                 };
+
+                // scope.$watch('currentSong', function (song) {
+                //     if (!song)
+                //         return;
+
+                //     var poster = document.getElementsByClassName('js-' + song.id)[0];
+
+                //     var canvas = poster.getElementsByClassName('js-spectrum')[0].getContext('2d');
+
+                //     var context = new webkitAudioContext();
+                //     var analyser = context.createAnalyser();
+                //     analyser.fftSize = 2048;
+
+                //     var source = context.createMediaElementSource(document.getElementsByTagName('audio')[0]);
+                //     source.connect(analyser);
+                //     analyser.connect(context.destination);
+                //     freqAnalyser();
+
+                //     function freqAnalyser() {
+                //         window.requestAnimationFrame(freqAnalyser);
+                //         var average;
+                //         var bar_width;
+                //         var scaled_average;
+                //         var num_bars = 30;
+                //         var data = new Uint8Array(2048);
+                //         analyser.getByteFrequencyData(data);
+
+                //         // clear canvas
+                //         canvas.clearRect(0, 0, poster.offsetWidth, poster.offsetHeight);
+                //         var bin_size = Math.floor(data.length / num_bars);
+                //         for (var i = 0; i < num_bars; i += 1) {
+                //             var sum = 0;
+                //             for (var j = 0; j < bin_size; j += 1) {
+                //                 sum += data[(i * bin_size) + j];
+                //             }
+                //             average = sum / bin_size;
+                //             bar_width = poster.offsetWidth / num_bars;
+                //             scaled_average = (average / 256) * poster.offsetHeight;
+                //             canvas.fillRect(i * bar_width, poster.offsetHeight, bar_width - 2, - scaled_average);
+                //         }
+                //     }
+
+                // });
+
             }
         };
     });

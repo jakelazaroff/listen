@@ -2,7 +2,7 @@
 .DS_Store
 
 # listen
-build
+# build
 *.map
 *.sublime-workspace
 
