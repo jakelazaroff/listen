@@ -59,17 +59,16 @@
                     analyser.connect(context.destination);
 
                     var drawSpectrum = function () {
-                        if (id === scope.currentSong.id & window.stop !== true)
+                        if (id === scope.currentSong.id)
                             window.requestAnimationFrame(drawSpectrum);
 
                         canvas.clearRect(0, 0, size, size);
                         canvas.fillStyle = '#ffffff';
 
-                        var radius = (poster.getElementsByClassName('toggle')[0].offsetWidth / -2);
+                        var radius = (poster.getElementsByClassName('toggle')[0].offsetWidth / -2) - 4;
                         var average;
-                        var bar_width = 2;
                         var scaled_average;
-                        var num_bars = 60;
+                        var num_bars = 80;
                         var increment = Math.PI * 2 / num_bars;
                         var data = new Uint8Array(512);
                         analyser.getByteFrequencyData(data);
@@ -77,9 +76,6 @@
                         canvas.save();
                         canvas.scale(ratio, ratio);
                         canvas.translate(poster.offsetWidth / 2, poster.offsetHeight / 2);
-
-                        // canvas.moveTo(0, radius);
-                        // canvas.beginPath();
                         
                         var bin_size = Math.floor(data.length / num_bars);
 
@@ -89,23 +85,12 @@
                                 sum += data[(i * bin_size) + j];
                             }
                             average = sum / bin_size;
-                            scaled_average = (average / 256) * (size / 12);
+                            scaled_average = (average / 256) * (size / 20);
 
-                            // canvas.lineTo(0, radius - scaled_average);
-
-                            canvas.fillRect(0, radius, 2, -scaled_average);
+                            canvas.fillRect(0, radius, 1, - (scaled_average > 2 ? scaled_average : 2));
                             canvas.rotate(increment);
                         }
-                        
-                        // canvas.closePath();
-                        // canvas.fill();
 
-                        // canvas.globalCompositeOperation = 'destination-out';
-
-                        // canvas.beginPath();
-                        // canvas.arc(0, 0, -(radius + 2), 0, Math.PI * 2, true);
-                        // canvas.closePath();
-                        // canvas.fill();
 
                         canvas.restore();
                     }
