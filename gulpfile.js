@@ -36,7 +36,9 @@ gulp.task('html', function () {
 gulp.task('css', function () {
 
     return gulp.src('client/sass/application.sass')
-        .pipe(sass({ style : options.env === 'production' ? 'compressed' : 'nested' }))
+        .pipe(sass(options.env === 'production'
+            ? { style : 'compressed', sourcemap : false }
+            : { style : 'nested' }))
         .on('error', function (err) { console.log(err.message); })
         .pipe(gulp.dest('build/public/css'));
 });

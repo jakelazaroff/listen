@@ -34,62 +34,72 @@
                     scope.currentSongIndex = scope.songs.indexOf(song);
                 };
 
+                // get the divice's pixel ratio 
+                var ratio = window.devicePixelRatio || 1;
+
+                // create an analyzer
                 var context = new AudioContext();
-                var analyser = context.createAnalyser();
-                analyser.fftSize = 2048;
+                var analyzer = context.createAnalyser();
+                analyzer.fftSize = 2048;
 
-                var source = context.createMediaElementSource(document.getElementsByTagName('audio')[0]);
-                source.connect(analyser);
-                analyser.connect(context.destination);
+                // connect the audio context to the audio tag
+                context.createMediaElementSource(document.getElementsByTagName('audio')[0]).connect(analyzer);
+                analyzer.connect(context.destination);
 
+                // when the song changes...
                 scope.$watch('currentSong', function (song) {
+                    // don't draw the spectrum if there's nothing playing
                     if (!song)
                         return;
 
+                    // cache the song id, the poster element and the canvas element
                     var id = scope.currentSong.id;
                     var poster = document.getElementsByClassName('js-' + song.id)[0];
-
                     var spectrum = poster.getElementsByClassName('js-spectrum')[0];
+
+                    // fetch the spectrum's drawing context
                     var canvas = spectrum.getContext('2d');
 
-                    var ratio = window.devicePixelRatio || 1;
-                    var size = poster.offsetWidth * ratio;
-
-                    spectrum.width = spectrum.height = size;
-                    spectrum.style.width = spectrum.style.height = size;
-
+                    // draw the spectrum
                     var drawSpectrum = function () {
+
+                        // find the size of the element
+                        var size = spectrum.offsetWidth * ratio;
+
+                        // if the current song is still playing, keep drawing the spectrum
                         if (id === scope.currentSong.id)
                             window.requestAnimationFrame(drawSpectrum);
+                        // otherwise clear the canvas and stop drawing
                         else
                             return canvas.clearRect(0, 0, size, size);
+
+                        // set the size of the canvas equal to the element's width
+                        spectrum.width = spectrum.height = size;
 
                         canvas.clearRect(0, 0, size, size);
                         canvas.fillStyle = '#ffffff';
 
-                        var radius = (poster.getElementsByClassName('toggle')[0].offsetWidth / -2) - 4;
-                        var average;
-                        var scaled_average;
-                        var num_bars = 80;
-                        var increment = Math.PI * 2 / num_bars;
-                        var data = new Uint8Array(512);
-                        analyser.getByteFrequencyData(data);
+                        var radius = (poster.getElementsByClassName('toggle')[0].offsetWidth / 2) + 4;
+                        var scaledAverage;
+                        var bars = 100;
+                        var increment = Math.PI * 2 / bars;
+                        var data = new Uint8Array(100);
+                        analyzer.getByteFrequencyData(data);
 
                         canvas.save();
                         canvas.scale(ratio, ratio);
                         canvas.translate(poster.offsetWidth / 2, poster.offsetHeight / 2);
                         
-                        var bin_size = Math.floor(data.length / num_bars);
+                        var binSize = Math.floor(data.length / bars);
 
-                        for (var i = 0; i < num_bars; i += 1) {
+                        for (var i = 0; i < bars; i += 1) {
                             var sum = 0;
-                            for (var j = 0; j < bin_size; j += 1) {
-                                sum += data[(i * bin_size) + j];
+                            for (var j = 0; j < binSize; j += 1) {
+                                sum += data[(i * binSize) + j];
                             }
-                            average = sum / bin_size;
-                            scaled_average = (average / 256) * (size / 20);
+                            scaledAverage = ((sum / binSize) / 256) * (radius);
 
-                            canvas.fillRect(0, radius, 1, - (scaled_average > 2 ? scaled_average : 2));
+                            canvas.fillRect(0, -radius, 1, -(scaledAverage > 1 ? scaledAverage : 1));
                             canvas.rotate(increment);
                         }
 

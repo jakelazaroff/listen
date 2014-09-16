@@ -51,7 +51,7 @@ strong
             opacity: 1
 
     > .info
-        float: left
+        margin-right: 36px
         line-height: 36px
 
         @media screen and (max-width: $medium)
@@ -136,22 +136,24 @@ strong
 
     > .poweredby
         display: block
-        float: right
+        position: absolute
+        top: 0
+        right: 10px
         height: 36px
         line-height: 36px
         opacity: 0.4
 
         @media screen and (max-width: $medium)
-            height: 60px
-            line-height: 60px
+            right: 6px
+            height: 48px
+            line-height: 48px
 
         > .soundcloud
+            position: relative
+            top: -4px
             width: 24px
             height: 24px
-            margin-top: 5px
-
-            @media screen and (max-width: $medium)
-                margin-top: -5px
+            vertical-align: middle
 
 .song-list
     position: relative
