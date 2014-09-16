@@ -3,7 +3,7 @@
     // prefixing fix
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-    var app = angular.module('Listen', ['templates', 'ngResource', 'ngAnimate', 'cfp.hotkeys']);
+    var app = angular.module('Listen', ['templates', 'ngResource', 'ngAnimate', 'ngTouch', 'cfp.hotkeys']);
 
     app.controller('ListenController', ['$scope', '$resource', function ($scope, $resource) {
 
