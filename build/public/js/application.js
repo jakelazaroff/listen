@@ -25823,6 +25823,14 @@ angular.module('ngResource', ['ng']).
                     scope.currentSongIndex = scope.songs.indexOf(song);
                 };
 
+                var context = new AudioContext();
+                var analyser = context.createAnalyser();
+                analyser.fftSize = 2048;
+
+                var source = context.createMediaElementSource(document.getElementsByTagName('audio')[0]);
+                source.connect(analyser);
+                analyser.connect(context.destination);
+
                 scope.$watch('currentSong', function (song) {
                     if (!song)
                         return;
@@ -25839,17 +25847,11 @@ angular.module('ngResource', ['ng']).
                     spectrum.width = spectrum.height = size;
                     spectrum.style.width = spectrum.style.height = size;
 
-                    var context = new AudioContext();
-                    var analyser = context.createAnalyser();
-                    analyser.fftSize = 2048;
-
-                    var source = context.createMediaElementSource(document.getElementsByTagName('audio')[0]);
-                    source.connect(analyser);
-                    analyser.connect(context.destination);
-
                     var drawSpectrum = function () {
                         if (id === scope.currentSong.id)
                             window.requestAnimationFrame(drawSpectrum);
+                        else
+                            return canvas.clearRect(0, 0, size, size);
 
                         canvas.clearRect(0, 0, size, size);
                         canvas.fillStyle = '#ffffff';
