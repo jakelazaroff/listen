@@ -1,4 +1,4 @@
-<audio ng-src="{{ currentSong.stream_url || '' }}" autoplay></audio>
+<audio data-artist="{{ currentSong.user.username }}" data-title="{{ currentSong.title }}" ng-src="{{ currentSong.stream_url || '' }}" autoplay></audio>
 <div class="controls">
     <button class="control" ng-click="previous()"><img src="/img/rewind.svg" alt="Previous"></button>
     <button class="control" ng-click="togglePlayback()"><img ng-src="/img/{{ isPlaying ? 'pause' : 'play' }}.svg" alt="{{ isPlaying ? 'Pause' : 'Play' }}"></button>
