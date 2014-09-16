@@ -176,7 +176,8 @@ strong
         float: left
         width: 12.5vw
         height: 12.5vw
-        background-size: cover
+        // fixes overflow: hidden not clipping img blur in some browsers
+        transform: translate3d(0, 0, 0)
         cursor: pointer
 
         @media screen and (max-width: $large)

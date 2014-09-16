@@ -44,6 +44,12 @@
                     var spectrum = poster.getElementsByClassName('js-spectrum')[0];
                     var canvas = spectrum.getContext('2d');
 
+                    var ratio = window.devicePixelRatio || 1;
+                    var size = poster.offsetWidth * ratio;
+
+                    spectrum.width = spectrum.height = size;
+                    spectrum.style.width = spectrum.style.height = size;
+
                     var context = new AudioContext();
                     var analyser = context.createAnalyser();
                     analyser.fftSize = 2048;
@@ -53,15 +59,13 @@
                     analyser.connect(context.destination);
 
                     var drawSpectrum = function () {
-                        if (id === scope.currentSong.id)
+                        if (id === scope.currentSong.id & window.stop !== true)
                             window.requestAnimationFrame(drawSpectrum);
-                        else
-                            return canvas.clearRect(0, 0, poster.offsetWidth, poster.offsetHeight);
 
-                        var size = spectrum.width = spectrum.height = poster.offsetWidth;
+                        canvas.clearRect(0, 0, size, size);
                         canvas.fillStyle = '#ffffff';
 
-                        var radius = (poster.getElementsByClassName('toggle')[0].offsetWidth / -2) + 2;
+                        var radius = (poster.getElementsByClassName('toggle')[0].offsetWidth / -2);
                         var average;
                         var bar_width = 2;
                         var scaled_average;
@@ -71,20 +75,34 @@
                         analyser.getByteFrequencyData(data);
 
                         canvas.save();
-                        canvas.translate(size / 2, size / 2);
+                        canvas.scale(ratio, ratio);
+                        canvas.translate(poster.offsetWidth / 2, poster.offsetHeight / 2);
+                        canvas.moveTo(0, radius);
+
+                        canvas.beginPath();
                         
                         var bin_size = Math.floor(data.length / num_bars);
+
                         for (var i = 0; i < num_bars; i += 1) {
                             var sum = 0;
                             for (var j = 0; j < bin_size; j += 1) {
                                 sum += data[(i * bin_size) + j];
                             }
                             average = sum / bin_size;
-                            scaled_average = (average / 256) * (size / 10);
+                            scaled_average = (average / 256) * (size / 12);
 
-                            canvas.fillRect(0, radius, bar_width, -scaled_average);
+                            canvas.lineTo(0, radius - scaled_average);
                             canvas.rotate(increment);
                         }
+                        canvas.closePath();
+                        canvas.fill();
+
+                        canvas.globalCompositeOperation = 'destination-out';
+
+                        canvas.beginPath();
+                        canvas.arc(0, 0, -(radius + 2), 0, Math.PI * 2, true);
+                        canvas.closePath();
+                        canvas.fill();
 
                         canvas.restore();
                     }
