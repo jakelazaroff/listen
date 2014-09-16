@@ -257,7 +257,8 @@ strong {
       opacity: 1; }
     .song-list > .song-poster:hover > .song-artwork, .song-list > .song-poster.playing > .song-artwork {
       opacity: 0.6;
-      -webkit-filter: blur(15px); }
+      -webkit-filter: blur(15px);
+      filter: blur(15px); }
 
 .about {
   float: left;

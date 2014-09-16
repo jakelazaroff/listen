@@ -77,9 +77,9 @@
                         canvas.save();
                         canvas.scale(ratio, ratio);
                         canvas.translate(poster.offsetWidth / 2, poster.offsetHeight / 2);
-                        canvas.moveTo(0, radius);
 
-                        canvas.beginPath();
+                        // canvas.moveTo(0, radius);
+                        // canvas.beginPath();
                         
                         var bin_size = Math.floor(data.length / num_bars);
 
@@ -91,18 +91,21 @@
                             average = sum / bin_size;
                             scaled_average = (average / 256) * (size / 12);
 
-                            canvas.lineTo(0, radius - scaled_average);
+                            // canvas.lineTo(0, radius - scaled_average);
+
+                            canvas.fillRect(0, radius, 2, -scaled_average);
                             canvas.rotate(increment);
                         }
-                        canvas.closePath();
-                        canvas.fill();
+                        
+                        // canvas.closePath();
+                        // canvas.fill();
 
-                        canvas.globalCompositeOperation = 'destination-out';
+                        // canvas.globalCompositeOperation = 'destination-out';
 
-                        canvas.beginPath();
-                        canvas.arc(0, 0, -(radius + 2), 0, Math.PI * 2, true);
-                        canvas.closePath();
-                        canvas.fill();
+                        // canvas.beginPath();
+                        // canvas.arc(0, 0, -(radius + 2), 0, Math.PI * 2, true);
+                        // canvas.closePath();
+                        // canvas.fill();
 
                         canvas.restore();
                     }
