@@ -18,13 +18,20 @@ var server = require('gulp-express');
 var copy = require('gulp-copy');
 var rimraf = require('gulp-rimraf');
 var concat = require('gulp-concat');
+var bust = require('gulp-buster');
+
+// html
 var htmlmin = require('gulp-htmlmin');
-var uglify = require('gulp-uglify');
 var inject = require('gulp-inject');
+
+// css
 var sass = require('gulp-ruby-sass');
+var cssmin = require('gulp-minify-css');
+
+// js
 var ngAnnotate = require('gulp-ng-annotate');
 var templateCache = require('gulp-angular-templatecache');
-var bust = require('gulp-buster');
+var uglify = require('gulp-uglify');
 
 gulp.task('html', function () {
 
@@ -44,6 +51,7 @@ gulp.task('css', function () {
             ? { style : 'compressed', sourcemap : false }
             : { style : 'nested' }))
         .on('error', function (err) { console.log(err.message); })
+        .pipe(gulpif(options.env === 'production', cssmin()))
         .pipe(gulp.dest('build/public/css'));
 });
 
