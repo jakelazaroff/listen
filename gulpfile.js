@@ -18,7 +18,7 @@ var server = require('gulp-express');
 var copy = require('gulp-copy');
 var rimraf = require('gulp-rimraf');
 var concat = require('gulp-concat');
-var htmlmin = require('gulp-minify-html');
+var htmlmin = require('gulp-htmlmin');
 var uglify = require('gulp-uglify');
 var inject = require('gulp-inject');
 var sass = require('gulp-ruby-sass');
@@ -33,7 +33,7 @@ gulp.task('html', function () {
     var sources = gulp.src(['build/public/css/application.css', 'build/public/js/lib.js', 'build/public/js/application.js'], { read : false });
 
     return target.pipe(inject(sources, { ignorePath : 'build/public' }))
-        .pipe(gulpif(options.env === 'production', htmlmin()))
+        .pipe(gulpif(options.env === 'production', htmlmin({ removeComments : true })))
         .pipe(gulp.dest('build/public'));
 });
 
