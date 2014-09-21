@@ -10,9 +10,9 @@ var config = {
     services : {
         soundcloud : {
             root : 'https://api.soundcloud.com',
-            id : 'SOUNDCLOUD_API_KEY',
-            secret : 'SOUNDCLOUD_API_SECRET',
-            user : 'SOUNDCLOUD_API_USERNAME'
+            id : process.env.SOUNDCLOUD_API_KEY,
+            secret : process.env.SOUNDCLOUD_API_SECRET,
+            user : process.env.SOUNDCLOUD_USER
         }
     }
 };

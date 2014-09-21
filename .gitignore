@@ -5,7 +5,7 @@
 # build
 *.map
 *.sublime-workspace
-config.js
+.env
 
 # sass
 .sass-cache
