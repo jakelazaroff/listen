@@ -4,23 +4,17 @@
 <head>
     <title>Listen</title>
     <link rel="shortcut icon" href="/img/favicon.ico">
+
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/application.css">
     <!-- endinject -->
+
     <meta name="viewport" content="width=device-width, user-scalable=no">
 </head>
-<body ng-controller="ListenController">
-
-    <section player class="player" ng-hide="!currentSong">
-    </section>
-
-    <ul song-list class="song-list">
-    </ul>
-
-    <div class="about" ng-include="'about.html'">
-    </div>
+<body ng-view>
 
     <!-- inject:js -->
+    <script src="/js/lib.js"></script>
     <script src="/js/application.js"></script>
     <!-- endinject -->
 
