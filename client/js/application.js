@@ -2,7 +2,7 @@
 
     window.app = angular.module('Listen', [
         'templates',
-        'ngRoute',
+        'ui.router',
         'ngResource',
         'ngAnimate',
         'ngTouch',

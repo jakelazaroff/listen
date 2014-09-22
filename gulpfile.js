@@ -37,11 +37,11 @@ gulp.task('html', function () {
 
     var target = gulp.src('client/index.html');
 
-    var sources = gulp.src(['build/public/css/application.css', 'build/public/js/lib.js', 'build/public/js/application.js'], { read : false });
+    var sources = gulp.src(['build/assets/css/application.css', 'build/assets/js/lib.js', 'build/assets/js/application.js'], { read : false });
 
-    return target.pipe(inject(sources, { ignorePath : 'build/public' }))
+    return target.pipe(inject(sources, { ignorePath : 'build' }))
         .pipe(gulpif(options.env === 'production', htmlmin({ removeComments : true })))
-        .pipe(gulp.dest('build/public'));
+        .pipe(gulp.dest('build'));
 });
 
 gulp.task('css', function () {
@@ -52,7 +52,7 @@ gulp.task('css', function () {
             : { style : 'nested' }))
         .on('error', function (err) { console.log(err.message); })
         .pipe(gulpif(options.env === 'production', cssmin()))
-        .pipe(gulp.dest('build/public/css'));
+        .pipe(gulp.dest('build/assets/css'));
 });
 
 gulp.task('js', function () {
@@ -69,17 +69,17 @@ gulp.task('js', function () {
     return merge(lib, app)
         .pipe(ngAnnotate())
         .pipe(gulpif(options.env === 'production', uglify()))
-        .pipe(gulp.dest('build/public/js'));
+        .pipe(gulp.dest('build/assets/js'));
 });
 
 gulp.task('images', function () {
     return gulp.src('client/img/*')
-        .pipe(gulp.dest('build/public/img'));
+        .pipe(gulp.dest('build/assets/img'));
 });
 
 gulp.task('fonts', function () {
     return gulp.src('client/fonts/*')
-        .pipe(gulp.dest('build/public/fonts'));
+        .pipe(gulp.dest('build/assets/fonts'));
 });
 
 gulp.task('clean', function () {

@@ -1,9 +1,12 @@
 var path = require('path');
 
+    var root = path.join(__dirname, '..');
+
 var config = {
 
-    root : path.join(__dirname, '..'),
-    public : '/build/public',
+    root : root,
+    client : path.join(root, '/build'),
+    public : path.join(root, '/build/assets'),
 
     apiRoot : '/api',
 

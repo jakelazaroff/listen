@@ -7,11 +7,13 @@ var services = require('./services');
 
 var app = express();
 
-app.use(express.static(path.join(config.root, config.public)));
-
 if (process.env.NODE_ENV === 'development') 
     app.use(require('connect-livereload')());
 
+// static assets
+app.use('/assets', express.static(config.public));
+
+// songs API endpoint
 app.get(config.apiRoot + '/songs', function (req, res) {
     request({
         url : services.soundcloud.endpoint('/users/' + config.services.soundcloud.user + '/favorites', 'json'),
@@ -27,8 +29,14 @@ app.get(config.apiRoot + '/songs', function (req, res) {
     });
 });
 
+// song stream API endpoint
 app.get(config.apiRoot + '/songs/:id/stream', function (req, res) {
     req.pipe(request(services.soundcloud.endpoint('/tracks/' + req.params.id + '/stream'))).pipe(res);
+});
+
+// single-page app
+app.get('*', function (req, res) {
+    res.sendfile(path.join(config.client, 'index.html'));
 });
 
 app.listen(process.env.PORT || 3000);
