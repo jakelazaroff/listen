@@ -1,18 +1,16 @@
 (function (app) {
 
-    app.config(function ($locationProvider, $routeProvider) {
+    app.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
 
         $locationProvider.html5Mode(true);
+        $urlRouterProvider.otherwise('/');
 
-        $routeProvider
-
-            // library
-            .when('/', {
+        $stateProvider
+            // feed
+            .state('feed', {
+                url : '/',
                 templateUrl : 'feed/template.html',
                 controller : 'FeedController'
-            })
-            .otherwise({
-                redirectTo : '/' 
             });
     });
 
